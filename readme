@@ -1,0 +1,46 @@
+This is the readme file for Rotary table project. There are 3 codes.
+1-motor.c
+2-motor_server.c
+3-client.c
+
+motor.c can be executed independently without client/server program
+If socket programming needs to be executed, motor_server.c and client.c should be executed simultaneously in the Raspberry Pi and the remote controlling device.
+
+In the stepper motor used, 
+1 step = 1.8 degrees
+
+**************************************************************************************************************************************************************
+1- motor.c : This program accepts 3 arguments from the command line.
+First arg - Direction - 0 or 1 [0 is clockwise and 1 is anticlockwise]
+Second arg - Steps to be rotated - 0 to the required steps. [200 steps = 360 degree rotation| 25 steps = 45 degrees | 50 steps = 90 degrees and so on]
+Third arg - Delay - This argument controls the speed of the motor. A minimum of 2500 Microseconds delay should be provided.
+
+Example : ./motor 0 200 2500
+The above code rotates the motor for 360 degrees in clockwise direction
+		  ./motor 1 25 10000
+The above code rotates the motor for 45 degrees in anti-clockwise direction. The speed of rotation is much lesser than the previous example due to the increase in delay.
+
+**************************************************************************************************************************************************************
+2- motor_server.c : This program acts as the server in socket programming. This rotates the motor in either clockwise or anticlockwise direction depending on the command from the client program.
+If the user enters "1" in the client program, the motor will rotate clockwise
+If the user enters "2" in the client program, the motor will rotate anti-clockwise
+
+The number of steps and delay should be modified in this program if need be.
+
+**************************************************************************************************************************************************************
+3- client.c : This program runs on a remote machine. The IP address of Raspberry Pi should be entered in the program. The user will be prompted to press 1 or 0.
+If the user enters "1", the information will be communicated to the motor_server.c program and clockwise rotation will occur.
+If the user enters "0", the information will be communicated to the motor_server.c program and anti-clockwise rotation will occur.
+
+**************************************************************************************************************************************************************
+Relation between "Delay" and "RPM" :
+
+Suppose 60 RPM is necessary.
+60 RPM = 1 RPS
+1 RPS = 200 steps/s
+Time per step (ms) = 1000/200 = 5ms
+Ton = 2.5ms and Toff = 2.5ms
+Delay = 2.5ms = 2500 Microseconds
+
+**************************************************************************************************************************************************************
+
